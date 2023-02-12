@@ -9,6 +9,7 @@ class PermutationInString {
 
 		int windowStart = 0;
 		int matched = 0;
+
 		for(int windowEnd = 0; windowEnd < s.length(); windowEnd++) {
 			char currChar = s.charAt(windowEnd);
 			if(map.containsKey(currChar)) {
@@ -35,10 +36,5 @@ class PermutationInString {
 
 		}
 		return false;
-	}
-	public static void main(String[] args) {
-		String s = "ccchellocc";
-		String p = "ocb";
-		System.out.println(PermutationInString.isFound(s, p));
 	}
 }
