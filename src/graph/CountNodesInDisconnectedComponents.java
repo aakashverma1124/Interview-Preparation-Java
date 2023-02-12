@@ -15,12 +15,12 @@ public class CountNodesInDisconnectedComponents {
         return graph;
     }
 
-    public static int dfs(int node, boolean[] visited, List<List<Integer>> graph, int c) {
+    public static int dfs(int node, boolean[] visited, List<List<Integer>> graph) {
         visited[node] = true;
-        c += 1;
+        int c = 1;
         for(int nbr : graph.get(node)) {
             if(!visited[nbr]) {
-                return dfs(nbr, visited, graph, c);
+                c += dfs(nbr, visited, graph);
             }
         }
         return c;
@@ -32,7 +32,7 @@ public class CountNodesInDisconnectedComponents {
         List<Integer> connectedCount = new ArrayList<>();
         for(int i = 1; i <= v; i++) {
             if(!visited[i]) {
-                int c = CountNodesInDisconnectedComponents.dfs(i, visited, graph, 0);
+                int c = CountNodesInDisconnectedComponents.dfs(i, visited, graph);
                 connectedCount.add(c);
             }
             
@@ -40,8 +40,8 @@ public class CountNodesInDisconnectedComponents {
         return connectedCount;
     }
      public static void main(String[] args) {
-        int v = 9;
-        int[][] edges = new int[][]{{1, 2}, {1, 5}, {2, 3}, {3, 7}, {4, 6}, {4, 7}, {5, 6}, {5, 7}, {8, 9}};
+        int v = 5;
+        int[][] edges = new int[][]{{1, 2}, {1, 3}, {1, 4}};
         System.out.println(CountNodesInDisconnectedComponents.disconnectedComponents(v, edges));
      }
 }
