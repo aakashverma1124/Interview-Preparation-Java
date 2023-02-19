@@ -10,23 +10,24 @@ class Pair {
 
 class DijkstraAlgorithm {
 
-	public static Map<Integer, List<Pair>> buildGraph(int edges[][], int nodes) {
+	public static List<List<Pair>> buildGraph(int edges[][], int nodes) {
 
-		Map<Integer, List<Pair>> graph = new HashMap<>();
+		List<List<Pair>> graph = new ArrayList<>();
 		for(int i = 0; i < nodes; i++) {
-			graph.put(i, new ArrayList<>());
+			graph.add(new ArrayList<>());
 		}
 		for(int edge[] : edges) {
 			int curr = edge[0];
 			int nbr = edge[1];
 			int dist = edge[2];
 			graph.get(curr).add(new Pair(nbr, dist));
+			graph.get(nbr).add(new Pair(curr, dist));
 		}
 		return graph;
 	}
 
 	public static int[] shortestPath(int edges[][], int nodes, int src) {
-		Map<Integer, List<Pair>> graph = DijkstraAlgorithm.buildGraph(edges, nodes);
+		List<List<Pair>> graph = DijkstraAlgorithm.buildGraph(edges, nodes);
 		PriorityQueue<Pair> minHeap = new PriorityQueue<>((p1, p2) -> p1.distance - p2.distance);
 		
 		boolean visited[] = new boolean[nodes];
@@ -46,6 +47,7 @@ class DijkstraAlgorithm {
 			visited[currNode] = true;
 
 			for(Pair nbrPair : graph.get(currNode)) {
+				if(visited[nbrPair.node]) continue;
 				int newDistance = currDistance + nbrPair.distance;
 				if(newDistance < distance[nbrPair.node]) {
 					distance[nbrPair.node] = newDistance;
