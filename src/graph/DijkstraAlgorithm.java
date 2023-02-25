@@ -5,7 +5,7 @@ class Pair {
 	public Pair(int node, int distance) {
 		this.node = node;
 		this.distance = distance;
-	}
+	} 
 }
 
 class DijkstraAlgorithm {
@@ -17,11 +17,11 @@ class DijkstraAlgorithm {
 			graph.add(new ArrayList<>());
 		}
 		for(int edge[] : edges) {
-			int curr = edge[0];
-			int nbr = edge[1];
-			int dist = edge[2];
-			graph.get(curr).add(new Pair(nbr, dist));
-			graph.get(nbr).add(new Pair(curr, dist));
+			graph.get(edge[0]).add(new Pair(edge[1], edge[2]));
+			graph.get(edge[1]).add(new Pair(edge[0], edge[2]));
+		}
+		for(int i = 0; i < nodes; i++) {
+			System.out.println(i + " : " + graph.get(i));
 		}
 		return graph;
 	}
@@ -60,18 +60,9 @@ class DijkstraAlgorithm {
 	}
 
 	public static void main(String[] args) {
-		int edges[][] = new int[][] {
-			{0, 1, 5}, 
-			{0, 4, 3}, 
-			{1, 2, 10}, 
-			{3, 5, 8}, 
-			{3, 2, 2}, 
-			{4, 2, 5}, 
-			{4, 3, 4}, 
-			{4, 5, 17}
-		};
+		int edges[][] = new int[][] {{0, 1, 2}, {0, 2, 9}, {0, 3, 8}, {1, 2, 5}, {1, 4, 2}, {2, 3, 1}, {3, 4, 1}};
 
-		int vertices = 6;
+		int vertices = 5;
 		int distance[] = shortestPath(edges, vertices, 0);
 		for(int dist : distance) {
 			System.out.print(dist + " ");

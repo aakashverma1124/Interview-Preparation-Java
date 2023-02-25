@@ -4,7 +4,7 @@ public class DepthFirstSearch {
 
     public static List<List<Integer>> buildGraph(int v, int[][] edges) {
         List<List<Integer>> graph = new ArrayList<>();
-        for(int i = 0; i <= v; i++) {
+        for(int i = 0; i < v; i++) {
             graph.add(new ArrayList<>());
         }
 
@@ -27,12 +27,13 @@ public class DepthFirstSearch {
 
     public static int[] depthFirstSearch(int v, int[][] edges, int src) {
         List<List<Integer>> graph = DepthFirstSearch.buildGraph(v, edges);
-        boolean[] visited = new boolean[v + 1];
+        boolean[] visited = new boolean[v];
         List<Integer> dfs = new ArrayList<>();
-        for(int i = 1; i <= v; i++) {
-            if(!visited[i])
-                DepthFirstSearch.dfs(i, visited, graph, dfs);
-        }
+        DepthFirstSearch.dfs(src, visited, graph, dfs);
+        // for(int i = 1; i <= v; i++) {
+        //     if(!visited[i])
+        //         DepthFirstSearch.dfs(i, visited, graph, dfs);
+        // }
         int ans[] = new int[v];
         for(int i = 0; i < v; i++) {
             ans[i] = dfs.get(i);
@@ -40,9 +41,9 @@ public class DepthFirstSearch {
         return ans;
     }
      public static void main(String[] args) {
-        int v = 9;
-        int[][] edges = new int[][]{{1, 2}, {1, 5}, {2, 3}, {3, 7}, {4, 6}, {4, 7}, {5, 6}, {5, 7}, {8, 9}};
-        int src = 1;
+        int v = 6;
+        int[][] edges = new int[][]{{0, 1}, {0, 2}, {0, 5}, {1, 3}, {1, 5}, {2, 3}, {3, 4}, {4, 5}};
+        int src = 0;
         for(int a : DepthFirstSearch.depthFirstSearch(v, edges, src)) {
             System.out.print(a + " ");
         }
