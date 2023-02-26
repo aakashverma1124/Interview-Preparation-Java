@@ -8,9 +8,9 @@ class Pair {
 	}
 }
 
-class PrimsAlgorithm {
+class WaterOptimization {
 
-	private static List<List<Pair>> buildGraph(int n, int[][] edges) {
+	private static List<List<Pair>> buildGraph(int n, int[][] edges, int[] wells) {
 		List<List<Pair>> graph = new ArrayList<>();
 		for(int i = 0; i <= n; i++) {
 			graph.add(new ArrayList<>());
@@ -19,11 +19,15 @@ class PrimsAlgorithm {
 			graph.get(edge[0]).add(new Pair(edge[1], edge[2]));
 			graph.get(edge[1]).add(new Pair(edge[0], edge[2]));
 		}
+        for(int i = 1; i <= n; i++) {
+            graph.get(0).add(new Pair(i, wells[i - 1]));
+            graph.get(i).add(new Pair(0, wells[i - 1]));
+        }
 		return graph;
 	}
 
-	private static int findMST(int n, int[][] edges) {
-		List<List<Pair>> graph = PrimsAlgorithm.buildGraph(n, edges);
+	private static int findMinCost(int n, int[][] edges, int[] wells) {
+		List<List<Pair>> graph = WaterOptimization.buildGraph(n, edges, wells);
 		PriorityQueue<Pair> minHeap = new PriorityQueue<>((p1, p2) -> (p1.distance - p2.distance));
 		
 		boolean[] mstSet = new boolean[n + 1];
@@ -55,16 +59,17 @@ class PrimsAlgorithm {
 			}
 		}
 		int minCost = 0;
-		for(int i = 1; i <= n; i++) {
+		for(int i = 0; i <= n; i++) {
 			minCost += distance[i];
 		}
 		return minCost ;
 	}
 
 	public static void main(String[] args) {
-		int[][] edges = new int[][]{{1, 2, 1}, {1, 3, 6}, {2, 4, 3}, {2, 6, 5}, {3, 5, 2}, {3, 6, 8}, {4, 8, 7}, {5, 6, 3}, {5, 7, 2}, {7, 8, 9}, {7, 9, 4}, {8, 9, 3}};
-		int nodes = 9;
-		int cost = PrimsAlgorithm.findMST(nodes, edges);
+		int[][] edges = new int[][]{{1, 2, 3}, {1, 4, 6}, {1, 5, 2}, {2, 4, 5}, {3, 5, 7}};
+        int[] wells = new int[]{1, 4, 6, 5, 3};
+        int nodes = 5;
+		int cost = WaterOptimization.findMinCost(nodes, edges, wells);
 		System.out.println(cost);
 	}
 }
